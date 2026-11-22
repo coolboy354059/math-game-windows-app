@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Needed so the workflow can create GitHub Releases for auto-update.
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -25,3 +29,28 @@ jobs:
         with:
           name: math-game-windows-app
           path: publish
+
+      # Read the version number from the project file, e.g. 1.0.0.
+      - name: Get app version
+        id: version
+        shell: pwsh
+        run: |
+          $version = (Select-Xml -Path MathGameWindowsApp.csproj -XPath "//Version").Node.InnerText
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      # Zip the built app. The zip holds the files inside the publish
+      # folder (not the folder itself) so the auto-updater can copy
+      # them straight over the old app files.
+      - name: Zip Windows app
+        shell: pwsh
+        run: Compress-Archive -Path publish\* -DestinationPath math-game-windows-app.zip -Force
+
+      # Publish the zip as a GitHub Release tagged v<version>, e.g. v1.0.0.
+      # The app checks these releases to auto-update. Running this again
+      # for the same version just updates the same release.
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Math Game v${{ steps.version.outputs.version }}
+          files: math-game-windows-app.zip
