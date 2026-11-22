@@ -15,6 +15,13 @@ namespace MathGameWindowsApp
             Width = 640;
             Height = 440;
 
+            // Use the app icon in the window and taskbar if it is next to the .exe.
+            string iconPath = Path.Combine(AppContext.BaseDirectory, "app.ico");
+            if (File.Exists(iconPath))
+            {
+                Icon = new System.Drawing.Icon(iconPath);
+            }
+
             webView = new WebView2
             {
                 Dock = DockStyle.Fill
@@ -32,6 +39,10 @@ namespace MathGameWindowsApp
             // Load the game page that sits next to the .exe.
             string indexPath = Path.Combine(AppContext.BaseDirectory, "index.html");
             webView.CoreWebView2.Navigate(new Uri(indexPath).AbsoluteUri);
+
+            // Check GitHub for a newer version in the background. This never
+            // blocks the game, and if the check fails it just stays quiet.
+            _ = UpdateChecker.CheckForUpdatesAsync(this);
         }
     }
 }
