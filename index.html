@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Math Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section id="home-screen" class="screen home-screen" aria-label="Home menu">
+      <div class="avatar" aria-label="Profile">
+        <svg viewBox="0 0 40 40" role="img" aria-hidden="true">
+          <circle cx="20" cy="20" r="19" fill="#EADDFF" />
+          <circle cx="20" cy="14" r="5" fill="none" stroke="#5B3FA8" stroke-width="2" />
+          <path d="M8 31c3-6 8-9 12-9s9 3 12 9" fill="none" stroke="#5B3FA8" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <h1>PLAY THE MATH GAME NOW!!!</h1>
+      <button id="play-button" class="play-button" type="button">PLAY</button>
+    </section>
+
+    <section id="game-screen" class="screen game-screen hidden" aria-label="Math game">
+      <div class="game-top">
+        <div id="question" class="question">5X1=</div>
+        <div class="score" aria-live="polite">Score: <span id="score">0</span></div>
+      </div>
+
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+
+      <div class="keypad" aria-label="Answer buttons">
+        <button class="key" type="button" data-answer="1">1</button>
+        <button class="key" type="button" data-answer="2">2</button>
+        <button class="key" type="button" data-answer="3">3</button>
+        <button class="key" type="button" data-answer="4">4</button>
+        <button class="key" type="button" data-answer="5">5</button>
+        <button class="key" type="button" data-answer="6">6</button>
+        <button class="key" type="button" data-answer="7">7</button>
+        <button class="key" type="button" data-answer="8">8</button>
+        <button class="key" type="button" data-answer="9">9</button>
+        <button class="key" type="button" data-answer="10">10</button>
+      </div>
+
+      <button id="home-button" class="home-button" type="button">HOME</button>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
